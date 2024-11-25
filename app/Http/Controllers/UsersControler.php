@@ -63,18 +63,20 @@ class UsersControler extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $user = User::find($id);
+        $user = User::find($id); //ambil user berdasarkan id
+        // update menggunakan password
         if ($request->password) {
             User::where('id', $id)->update([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
             ]);
+            // update tanpa menggunakan password
         } else {
             User::where('id', $id)->update([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => $user->password,
+                'password' => $user->password, // ambil password lama agar ketika diinput tanpa password tidak error
             ]);
         }
         return redirect()->to('user');
