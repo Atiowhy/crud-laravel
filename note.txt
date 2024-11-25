@@ -1,0 +1,8 @@
+MVC
+
+model : database
+view : user interface
+controler : menghubungkan anatara model dan view
+
+artisan : perintah untuk membuat fitur yang ada di laravel
+composer : install package yang ada di php
