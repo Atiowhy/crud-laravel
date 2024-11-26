@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KalkulatorController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LatihanController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UsersControler;
 
 // (/) adalah default route
@@ -10,8 +13,16 @@ use App\Http\Controllers\UsersControler;
 // post untuk menambahkan data
 // put untuk mengubah data
 // delete untuk menghapus data
-Route::get('/', function () {
-    return view('welcome');
+
+Route::get('/', [LoginController::class, 'index'])->name('/');
+Route::post('actionLogin', [LoginController::class, 'actionLogin'])->name('actionLogin');
+Route::get('register', [RegisterController::class, 'index'])->name('register');
+Route::post('actionRegister', [RegisterController::class, 'actionRegister'])->name('actionRegister');
+Route::post('logout', [DashboardController::class, 'logout'])->name('logout');
+
+// grouping routing setelah login
+Route::middleware(['auth'])->group(function () {
+    Route::resource('dashboard', DashboardController::class);
 });
 
 Route::get('latihan', [LatihanController::class, 'index']);
@@ -29,3 +40,4 @@ Route::post('store-kali', [KalkulatorController::class, 'storeKali'])->name('sto
 Route::post('store-bagi', [KalkulatorController::class, 'storeBagi'])->name('store-bagi');
 
 Route::resource('user', UsersControler::class);
+Route::get('delete/{id}', [UsersControler::class, 'delete'])->name('delete');

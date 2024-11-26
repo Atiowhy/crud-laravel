@@ -17,9 +17,21 @@
                 <td>{{$user->email}}</td>
                 <td>
                     <a href="{{route('user.edit', $user->id)}}">Edit</a>
+                    {{-- <a href="{{ route('delete', $user->id) }}" onclick="return confirm('apakah anda yakin ingin menghapus item ini?')">Delete</a> --}}
+                    <form action="{{route('user.destroy', $user->id)}}" method="post">
+                        @method('delete')
+                        @csrf
+                        <button class="btn-click">Delete</button>
+                    </form>
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
+
+    <script>
+        document.querySelector('.btn-click').addEventListener('click', function(){
+            alert('yakin?')
+        })
+    </script>
 @endsection
