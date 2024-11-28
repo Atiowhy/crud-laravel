@@ -63,18 +63,23 @@
             </a>
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="pages-account-settings-account.html" class="menu-link">
+                    <a href="{{ route('customer.index') }}" class="menu-link">
                         <div data-i18n="Account">Pelanggan</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="pages-account-settings-notifications.html" class="menu-link">
+                    <a href="{{ route('service.index') }}" class="menu-link">
                         <div data-i18n="Notifications">Paket</div>
                     </a>
                 </li>
                 <li class="menu-item">
                     <a href="{{ route('user.index') }}" class="menu-link">
                         <div data-i18n="Connections">User</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('level.index') }}" class="menu-link">
+                        <div data-i18n="Connections">Level</div>
                     </a>
                 </li>
             </ul>
@@ -86,7 +91,7 @@
             </a>
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="auth-login-basic.html" class="menu-link">
+                    <a href="{{ route('trans_order.index') }}" class="menu-link">
                         <div data-i18n="Basic">Order</div>
                     </a>
                 </li>
