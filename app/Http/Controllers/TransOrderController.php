@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customers;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\Type_of_service;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -41,9 +42,19 @@ class TransOrderController extends Controller
      */
     public function store(Request $request)
     {
-        Customers::create($request->all());
+        $order = Order::create($request->all());
+        // return $order;
+        foreach ($request->id_service as $key => $val) {
+            OrderDetail::create([
+                'id_order' => $order->id,
+                'id_service' => $request->id_service[$key],
+                'price_service' => $request->id_service[$key],
+                'qty' => $request->qty[$key],
+                'subtotal' => $request->subtotal[$key]
+            ]); //mengirim data ke table order detail
+        }
         Alert::success('Yeayyy', 'Data Berhasil Ditambahkan');
-        return redirect()->to('customer');
+        return redirect()->to('trans_order');
     }
 
     /**
@@ -86,5 +97,11 @@ class TransOrderController extends Controller
         Customers::findorFail($id)->delete();
         Alert::success('Yeayyy', 'Data Berhasil Dihapus');
         return redirect()->to('customer');
+    }
+
+    public function getPaket($id_paket)
+    {
+        $pakets = Type_of_service::find($id_paket);
+        return response()->json($pakets);
     }
 }

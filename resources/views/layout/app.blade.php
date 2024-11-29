@@ -159,19 +159,61 @@
 
     {{-- jquary buat nambah row table --}}
     <script>
+        // ini untuk mengambil data harga dari endpoitn getPaket yang sudah di buat di function getPaket yg sudah di buat di controller dan mengembalikan data sesuai dengan data type_of_service yang ada di database
+        $('#id_paket').change(function() {
+            let id_paket = $(this).val()
+            $.ajax({
+                url: '/getPaket/' + id_paket,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('#price').val(data.price)
+                }
+            })
+        })
+
+        // ini untuk menambahkan row table dengan javascript agar bisa di proses oleh client bukan dari server
         // let button = document.querySelector('.add-row');
         $('.add-row').click(function(e) {
+            let nama_paket = $('#id_paket').find('option:selected').text(),
+                id_paket = $('#id_paket').val(),
+                harga = $('#price').val(),
+                qty = $('.qty').val(),
+                subtotal = parseInt(harga) * parseInt(qty)
+
+            if (id_paket == "") {
+                alert('Pilih Paket Terlebih Dahulu')
+                return false
+            }
+            if (qty == "") {
+                alert('isi qty Terlebih Dahulu')
+                return false
+            }
             e.preventDefault()
             let newRow = ""
             newRow += "<tr>"
-            newRow += "<td>ini td 1</td>"
-            newRow += "<td>ini td 1</td>"
-            newRow += "<td>ini td 1</td>"
-            newRow += "<td>ini td 1</td>"
+            newRow += "<td>" + nama_paket +
+                "<input type='hidden' name='id_service[]' class='id_paket form-control' value='" + id_paket +
+                "' /></td>"
+            newRow += "<td>" + "Rp." + harga + "<input type='hidden' name='price_service[]' id='qty' value='" +
+                harga +
+                "'/></td>"
+            newRow += "<td>" + qty + "<input type='hidden' name='qty[]' id='qty' value='" + qty + "'/></td>"
+            newRow += "<td>" + subtotal +
+                "<input type='hidden' name='subtotal[]' class='subtotal' value='" + subtotal + "'/></td>"
             newRow += "</tr>"
 
             let tbody = $('.tbody-parent')
             tbody.append(newRow)
+
+            let total = 0;
+            $('.subtotal').each(function() {
+                let totalHarga = parseFloat($(this).val()) || 0
+                total += totalHarga
+            })
+            $('.total-harga').val(total)
+            $('#id_paket').val("")
+            $('.qty').val("")
         })
     </script>
   </body>

@@ -14,6 +14,7 @@ class LoginController extends Controller
 
     public function actionLogin(Request $request)
     {
+        // bikin credentialnya untuk inputan login
         $credential = $request->only(['email', 'password']);
         // return $credential;
         if (Auth::attempt($credential)) {

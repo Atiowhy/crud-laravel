@@ -27,6 +27,12 @@ Route::post('actionRegister', [RegisterController::class, 'actionRegister'])->na
 // grouping routing setelah login
 Route::middleware(['auth'])->group(function () {
     Route::resource('dashboard', DashboardController::class);
+    Route::resource('user', UsersControler::class);
+    Route::resource('service', ServiceController::class);
+    Route::resource('customer', CustomersController::class);
+    Route::resource('level', LevelController::class);
+    Route::resource('trans_order', TransOrderController::class);
+    Route::get('getPaket/{id}', [TransOrderController::class, 'getPaket'])->name('getPaket');
 });
 
 Route::get('latihan', [LatihanController::class, 'index']);
@@ -41,9 +47,5 @@ Route::post('store-tambah', [KalkulatorController::class, 'storeTambah'])->name(
 Route::post('store-kurang', [KalkulatorController::class, 'storeKurang'])->name('store-kurang');
 Route::post('store-kali', [KalkulatorController::class, 'storeKali'])->name('store-kali');
 Route::post('store-bagi', [KalkulatorController::class, 'storeBagi'])->name('store-bagi');
-Route::resource('user', UsersControler::class);
-Route::resource('service', ServiceController::class);
-Route::resource('customer', CustomersController::class);
-Route::resource('level', LevelController::class);
-Route::resource('trans_order', TransOrderController::class);
+
 Route::get('delete/{id}', [UsersControler::class, 'delete'])->name('delete');
